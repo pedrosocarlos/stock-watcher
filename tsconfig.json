@@ -1,0 +1,22 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "target": "ES6",
+    "skipLibCheck": true,
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "typeRoots": [ "node_modules/@types" ],
+    "lib": [ "es2017", "dom" ],
+  },
+  "include": [ "src/**/*.ts", "knexfile.ts" ],
+  "exclude": [ "node_modules" ],
+}

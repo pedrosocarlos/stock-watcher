@@ -1,0 +1,2 @@
+- criar serviço para movimentar o banco de dados
+- deixar interação com o site (status invest/invest site) apenas em um arquivo
