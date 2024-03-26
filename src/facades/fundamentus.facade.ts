@@ -1,12 +1,12 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-import { Stock } from "src/models/entity/stock"
+import { StockData } from "src/models"
 
 export class FundamentusService {
-  public async getAllStocks(): Promise<Stock[]> {
+  public async getAllStocks(): Promise<StockData[]> {
     try {
       const url = 'https://www.fundamentus.com.br/resultado.php'
-      const stock_filtered: Stock[] = []
+      const stock_filtered: StockData[] = []
 
       await axios(url).then(async response => {
         const html = response.data
@@ -32,24 +32,15 @@ export class FundamentusService {
           let plFinal = parseFloat(p_l.replaceAll(".", "").replace(",", "."))
 
           if (Number(liq) >= 1000000 && plFinal > 0) {
-            /* console.log("-------------")
-            console.log(title)
-            console.log(ticker)
-            console.log(liq)
-            console.log(plFinal) */
-
-            const item: Stock = {
+            const item: StockData = {
               title: title.replace(/(\r\n\t|\n|\r|\t|%)/gm, ""),
               ticker: ticker,
-              flag_deleted: 0,
-              type: 1
-              /* div_yield: parseFloat(div_yield.replaceAll(".", "").replace(",", ".")),
+              div_yield: parseFloat(div_yield.replaceAll(".", "").replace(",", ".")),
               p_l: parseFloat(p_l.replaceAll(".", "").replace(",", ".")),
               roe: parseFloat(roe.replaceAll(".", "").replace(",", ".")),
               roic: parseFloat(roic.replaceAll(".", "").replace(",", ".")),
-              ev_ebit: parseFloat(ev_ebit.replaceAll(".", "").replace(",", ".")) */
+              ev_ebit: parseFloat(ev_ebit.replaceAll(".", "").replace(",", "."))
             }
-
             stock_filtered.push(item)
           }
         })

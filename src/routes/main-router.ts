@@ -1,5 +1,6 @@
-import { IndexController } from '../controllers/index-controller';
-import { ArtcilesRouter } from './articles-router';
+import { IndexController } from '../controllers/index-controller'
+import { QuotationRouter } from './quotation.router'
+import { OrderRouter } from './orders.router'
 
 export class MainRouter {
 
@@ -13,8 +14,11 @@ export class MainRouter {
   private addRoutes(app) {
     app.route('/').get(this.indexCtrl.getIndex)
 
-    const articlesRouter = new ArtcilesRouter()
-          articlesRouter.attach(app)
+    const quotationRouter = new QuotationRouter()
+    quotationRouter.attach(app)
+
+    const orderRouter = new OrderRouter()
+    orderRouter.attach(app)
   }
 
   private addErrorHandler(app) {
