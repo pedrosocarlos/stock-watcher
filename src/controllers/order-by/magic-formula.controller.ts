@@ -6,6 +6,7 @@ export class OrderMagicFormulaController {
   public async order(req: Request, res: Response) {
     const stocks = await knex_connection('stock').select('*').join('stock_info', 'stock.id', '=', 'stock_info.id');
     console.log(stocks.length)
+    if (stocks.length) { return res.status(200).json({ message: 'no stocks found' }) }
     const insert_info: StockData[] = []
 
     const order_ebit = stocks.sort((a, b) => a.ev_ebit - b.ev_ebit)
