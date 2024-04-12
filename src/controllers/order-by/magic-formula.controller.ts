@@ -5,8 +5,8 @@ import { BaseRestModel, StockData } from '../../models'
 export class OrderMagicFormulaController {
   public async order(req: Request, res: Response) {
     const stocks = await knex_connection('stock').select('*').join('stock_info', 'stock.id', '=', 'stock_info.id');
-    console.log(stocks.length)
-    if (stocks.length) { return res.status(200).json({ message: 'no stocks found' }) }
+    console.log('\n\nações', stocks.length, '\n\n')
+    if (stocks.length === 0) { return res.status(200).json({ message: 'no stocks found' }) }
     const insert_info: StockData[] = []
 
     const order_ebit = stocks.sort((a, b) => a.ev_ebit - b.ev_ebit)
@@ -21,6 +21,7 @@ export class OrderMagicFormulaController {
 
     for (var k = 0; k < stocks.length; k++) {
       insert_info.push({
+        id: stocks[k].id,
         div_yield: stocks[k].div_yield = ! null ? stocks[k].div_yield : 0,
         p_l: stocks[k].p_l,
         ev_ebit: stocks[k].ev_ebit,
@@ -34,13 +35,9 @@ export class OrderMagicFormulaController {
 
     await knex_connection('stock_info').delete();
 
-    insert_info.forEach(async element => {
-      await knex_connection('stock_info').insert(element)
-    });
+    insert_info.forEach(async element => { await knex_connection('stock_info').insert(element) })
 
-    const result: BaseRestModel = {
-      meta: { code: 0, hasMore: false }
-    }
+    const result: BaseRestModel = { meta: { code: 0, hasMore: false } }
 
     return res.status(200).json(result).send()
   }

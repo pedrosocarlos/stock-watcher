@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { OrderMagicFormulaController } from '../controllers/order-by';
+import { OrderMagicFormulaController, ListByFormulaController } from '../controllers/order-by';
 
 export class OrderRouter {
 
@@ -8,7 +8,11 @@ export class OrderRouter {
   public attach(app: Application): void {
     // Articles
     app.route('/order/magic-formula')
-    // GET - List
-    .get(new OrderMagicFormulaController().order)
+      // GET - List
+      .get(new OrderMagicFormulaController().order)
+
+    app.route('/order/magic-formula/list')
+      // get listagem pela formula mágica
+      .get(new ListByFormulaController().list)
   }
 }
